@@ -5,6 +5,13 @@ body {
 h1 {
   text-align: center;
   padding-top: 35px;
+  text-decoration: none;
+  cursor: pointer;
+}
+h1 a:link,
+h1 a:visited {
+  text-decoration: none !important;
+  color: black !important;
 }
 
 select {
@@ -14,6 +21,7 @@ select {
   width: 95%;
   padding: 10px 5px;
   font-size: 14px;
+  cursor: pointer;
 }
 h2 {
   margin: 0;
