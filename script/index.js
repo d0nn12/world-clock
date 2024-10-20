@@ -1,3 +1,5 @@
+let currentCityInterval;
+
 function updateTime() {
   let peruElement = document.querySelector("#peru");
   let peruDateElement = peruElement.querySelector(".date");
@@ -20,15 +22,11 @@ function updateTime() {
   )}`;
 }
 
-function updateCity(event) {
-  let cityTimeZone = event.target.value;
-  if (cityTimeZone === "current") {
-    cityTimeZone = moment.tz.guess();
-  }
-
+function updateCityTime(cityTimeZone) {
   let cityName = cityTimeZone.replace("_", " ").split("/")[1];
   let cityTime = moment().tz(cityTimeZone);
   let citiesElement = document.querySelector("#cities");
+
   citiesElement.innerHTML = `<div class="city-container">
           <div>
             <h2>${cityName}</h2>
@@ -39,6 +37,26 @@ function updateCity(event) {
           )}<small>${cityTime.format("A")}</small></div>
         </div>
     `;
+}
+
+function updateCity(event) {
+  let cityTimeZone = event.target.value;
+  if (cityTimeZone === "current") {
+    cityTimeZone = moment.tz.guess();
+  }
+
+  // Clear previous interval if one exists
+  if (currentCityInterval) {
+    clearInterval(currentCityInterval);
+  }
+
+  // Immediately update the city time
+  updateCityTime(cityTimeZone);
+
+  // Set interval to update the city time every second
+  currentCityInterval = setInterval(() => {
+    updateCityTime(cityTimeZone);
+  }, 1000);
 }
 
 updateTime();
